@@ -1,0 +1,10 @@
+os: Visual Studio 2017
+init:
+  - git config --global core.autocrlf input
+install:
+  - dotnet restore
+build_script:
+  - cmd: dotnet build
+test_script:
+  - cmd: dotnet test .\tests\BoFlynn.Math.Tests\BoFlynn.Math.Tests.csproj
+  
