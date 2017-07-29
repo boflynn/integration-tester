@@ -1,0 +1,10 @@
+language: csharp
+solution: BoFlynn.Math.sln
+mono: none
+dotnet: 1.0.3
+dist: trusty
+install:
+  - dotnet restore
+script:
+  - dotnet build
+  - dotnet test ./tests/BoFlynn.Math.Tests/BoFlynn.Math.Tests.csproj
