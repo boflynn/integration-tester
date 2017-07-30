@@ -14,6 +14,7 @@ addons:
     project:
       name: "boflynn/integration-tester"
       description: "Project for testing Github integrations"
+    notification_email: boflynn@gmail.com
     build_command_prepend: "dotnet restore"
     build_command: "dotnet build"
     branch_pattern: add-coverity
