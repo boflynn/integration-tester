@@ -16,7 +16,7 @@ addons:
       description: "Project for testing Github integrations"
     build_command_prepend: "dotnet restore"
     build_command: "dotnet build"
-    branch_pattern: master
+    branch_pattern: add-coverity
 script:
   - dotnet build
   - dotnet test ./tests/BoFlynn.Math.Tests/BoFlynn.Math.Tests.csproj
