@@ -1,3 +1,7 @@
+env:
+  global:
+   - secure: "QZ1AP0S/AFC4c9unPM3FEPBfBjNYxa6Ybz0cuBcK6v5U2pJ3ehqbv/2MzMvxJspJo1o+ngBOiQ4dxhBkO7kGXFFvRDSkKKFNekcDrYLpaK1xDREN8KUU9LrKFdEmDqRH1aj/Cl+phX5u6JPxdHj0KbIqLK8XE8KBYEfxBE5sXN2H3d0KtZOrknQk73+NklKrwEQtw85VjG3i2L9KOC3FV5EUrigwayKsp1W+eCdM3FtAq6UqAK4mS66PaZ7NLavaLxRk/ukPN7rKmN7Wd61y6Qb8N79QXj9Wzg76r4eR1Cf5qbBKiwZYXZzNUbH4FwWSHXyCkGjdBKJ5pdsXYTGd4hKcR1L8BxZWhBnlN/sMHrlJ5MVerD/k2PSe+F1mwiq3ZVro4nOOPadmY/RhWRcH+Lgyw54mKz+jyIgUPBJhxvO9t/5a2if+nljNKZU+pjf3MHamPDWpauAkIxTTW39B4Gzb3qjLyHWWXsBHMyoWWqoqYS47QPUXmFCeS1g17IqojP5mjg+lJqaZyKA/VGj3UH8Wd5gzKTMABK3eIqWO0qulliWCCkd1ju8S4o6FuJCwGDvNABMmLmlTrItQslonnDH4EZcKrNj2ANagbJhAlExuB7KUz9+8t3SHZG9YHdbQ4Ea6ArFDnER6SeZ2EdgzICmo+nKrildeI3cWa5lrKJQ="
+
 language: csharp
 solution: BoFlynn.Math.sln
 mono: none
@@ -5,6 +9,14 @@ dotnet: 1.0.3
 dist: trusty
 install:
   - dotnet restore
+addons:
+  coverity_scan:
+    project:
+      name: "boflynn/integration-tester"
+      description: "Project for testing Github integrations"
+    build_command_prepend: "dotnet restore"
+    build_command: "dotnet build"
+    branch_pattern: master
 script:
   - dotnet build
   - dotnet test ./tests/BoFlynn.Math.Tests/BoFlynn.Math.Tests.csproj
