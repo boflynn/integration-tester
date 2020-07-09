@@ -15,5 +15,16 @@ namespace BoFlynn.Math.Tests
 
             Assert.Equal(expected, actual);
         }
+        
+        [Fact]
+        public void Add2_For1Plus1_Returns2()
+        {
+            const int expected = 2;
+            var sut = new Adder();
+
+            var actual = sut.Add2(1, 1);
+
+            Assert.Equal(expected, actual);
+        }
     }
 }

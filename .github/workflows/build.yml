@@ -1,0 +1,49 @@
+on: push
+name: Main Workflow
+jobs:
+  sonarCloudTrigger:
+    name: SonarCloud Trigger
+    runs-on: ubuntu-20.04
+    steps:
+    - uses: actions/checkout@v1
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 2.2.108
+    - name: ALL TOGETHER NOW
+      run: |
+        dotnet tool install --global dotnet-sonarscanner
+        dotnet tool install --global coverlet.console
+        dotnet sonarscanner begin \
+          /d:sonar.host.url=$SONAR_URL \
+          /d:sonar.login=$SONAR_TOKEN \
+          /k:"boflynn_integration-tester" \
+          /o:"boflynn" \
+          /d:sonar.cs.opencover.reportsPaths="coverage.opencover.xml"
+        dotnet restore
+        dotnet build --no-restore
+        coverlet tests/BoFlynn.Math.Tests/bin/Debug/netcoreapp2.0/BoFlynn.Math.Tests.dll \
+          --target "dotnet" \
+          --targetargs "test tests/BoFlynn.Math.Tests --no-build" \
+          --format opencover \
+          --output "./coverage.opencover.xml"
+        dotnet sonarscanner end /d:sonar.login=$SONAR_TOKEN
+      env:
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        SONAR_URL: https://sonarcloud.io
+    # - name: Sonarscanner for dotnet
+    #   uses: Secbyte/dotnet-sonarscanner@v2.3
+    #   with:
+    #     buildCommand: dotnet build .
+    #     testCommand: dotnet test . /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
+    #     projectKey: boflynn_integration-tester
+    #     projectName: Integration Tester
+    #     sonarOrganisation: boflynn
+    #     beginArguments: >
+    #       /d:sonar.verbose="true"
+    #       /d:sonar.cs.opencover.reportsPaths="coverage.opencover.xml"
+    #       /d:sonar.coverage.exclusions='"**/*.cs","**/*.md"'
+    #   env:
+    #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+    #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
